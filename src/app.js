@@ -8,6 +8,7 @@ app.use(express.json());
 
 const authRoutes = require("./routes/authRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
 
 app.get("/", (req, res) => {
   res.send("FinSight API is running");
@@ -15,5 +16,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 module.exports = app;
