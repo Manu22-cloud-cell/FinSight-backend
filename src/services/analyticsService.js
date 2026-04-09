@@ -1,4 +1,7 @@
 const analyticsRepo = require("../repositories/analyticsRepository");
+const predictionService = require("./predictionService");
+const userRepository = require("../repositories/userRepository");
+const financialHealthService = require("./financialHealthService");
 
 exports.getSummary = async (userId) => {
   const data = await analyticsRepo.getSummary(userId);
@@ -56,13 +59,14 @@ exports.getMonthlyTrends = async (userId) => {
 };
 
 exports.getDashboard = async (userId) => {
-  const [summary, categories, trends] = await Promise.all([
+  const [summary, categories, trends, user] = await Promise.all([
     analyticsRepo.getSummary(userId),
     analyticsRepo.getCategoryBreakdown(userId),
     analyticsRepo.getMonthlyTrends(userId),
+    userRepository.getUserById(userId),
   ]);
 
-  // Format summary (reuse your existing logic if needed)
+  // Summary
   let income = 0;
   let expense = 0;
 
@@ -71,13 +75,13 @@ exports.getDashboard = async (userId) => {
     if (item._id === "expense") expense = item.total;
   });
 
-  // Format categories
+  // Categories
   const categoryData = {};
   categories.forEach((item) => {
     categoryData[item._id] = item.total;
   });
 
-  // Format trends
+  // Trends
   const trendData = {};
   trends.forEach((item) => {
     const key = `${item._id.year}-${item._id.month}`;
@@ -93,6 +97,15 @@ exports.getDashboard = async (userId) => {
     }
   });
 
+  // Prediction Data
+  let prediction = null;
+
+  if (user) {
+    prediction = await predictionService.getPrediction(user);
+  }
+
+  const health = await financialHealthService.getFinancialHealthScore(userId);
+
   return {
     summary: {
       totalIncome: income,
@@ -101,5 +114,7 @@ exports.getDashboard = async (userId) => {
     },
     categories: categoryData,
     trends: trendData,
+    prediction,
+    healthScore: health.score,
   };
 };
