@@ -21,10 +21,15 @@ exports.runChecks = async (userId) => {
   const now = new Date();
 
   // Fetch ONLY current month transactions
-  const transactions = await transactionRepository.getUserTransactions(userId, {
+  const transactionsResult = await transactionRepository.getUserTransactions(userId, {
     startDate: startOfMonth,
     endDate: now,
   });
+
+  // Extract array safely
+  const transactions = Array.isArray(transactionsResult)
+    ? transactionsResult
+    : transactionsResult.transactions;
 
   let totalExpense = 0;
   let todayExpense = 0;

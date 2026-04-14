@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const userRepo = require("../repositories/userRepository");
 
 exports.registerUser = async (data) => {
-  const { name, email, password } = data;
+  const { name, email, password, monthlyBudget } = data;
 
   const existingUser = await userRepo.findUserByEmail(email);
   if (existingUser) {
@@ -16,6 +16,7 @@ exports.registerUser = async (data) => {
     name,
     email,
     password: hashedPassword,
+    monthlyBudget,
   });
 
   return user;

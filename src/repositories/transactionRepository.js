@@ -6,36 +6,69 @@ exports.createTransaction = async (data) => {
 
 exports.getUserTransactions = async (userId, filters) => {
 
-  console.log("Filters received:", filters);
-
-  // HARD DEFENSIVE FIX
   if (!filters || typeof filters !== "object") {
     filters = {};
   }
 
   const query = { userId };
 
-  // Safe checks
-  if (filters.type) {
-    query.type = filters.type;
-  }
+  // Filters
+  if (filters.type) query.type = filters.type;
+  if (filters.category) query.category = filters.category;
 
-  if (filters.category) {
-    query.category = filters.category;
-  }
-
-  // Date filtering (safe)
   if (filters.startDate || filters.endDate) {
     query.date = {};
-
-    if (filters.startDate) {
-      query.date.$gte = new Date(filters.startDate);
-    }
-
-    if (filters.endDate) {
-      query.date.$lte = new Date(filters.endDate);
-    }
+    if (filters.startDate) query.date.$gte = new Date(filters.startDate);
+    if (filters.endDate) query.date.$lte = new Date(filters.endDate);
   }
 
-  return await Transaction.find(query).sort({ date: -1 });
+  // Pagination params
+  const page = parseInt(filters.page) || 1;
+  const limit = parseInt(filters.limit) || 5;
+  const skip = (page - 1) * limit;
+
+  // Total count
+  const total = await Transaction.countDocuments(query);
+
+  // Fetch paginated data
+  const transactions = await Transaction.find(query)
+    .sort({ date: -1 })
+    .skip(skip)
+    .limit(limit);
+
+  return {
+    transactions,
+    total,
+    page,
+    pages: Math.ceil(total / limit),
+  };
+};
+
+// UPDATE
+exports.updateTransaction = async (userId, transactionId, data) => {
+  const transaction = await Transaction.findOneAndUpdate(
+    { _id: transactionId, userId },
+    data,
+    { new: true }
+  );
+
+  if (!transaction) {
+    throw new Error("Transaction not found or unauthorized");
+  }
+
+  return transaction;
+};
+
+// DELETE
+exports.deleteTransaction = async (userId, transactionId) => {
+  const transaction = await Transaction.findOneAndDelete({
+    _id: transactionId,
+    userId,
+  });
+
+  if (!transaction) {
+    throw new Error("Transaction not found or unauthorized");
+  }
+
+  return transaction;
 };

@@ -18,13 +18,44 @@ exports.addTransaction = async (req, res) => {
 
 exports.getTransactions = async (req, res) => {
   try {
-    const transactions = await transactionService.getTransactions(
+    const result = await transactionService.getTransactions(
       req.user._id,
       req.query
     );
 
+    res.status(200).json(result); 
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.updateTransaction = async (req, res) => {
+  try {
+    const updatedTransaction =
+      await transactionService.updateTransaction(
+        req.user._id,
+        req.params.id,
+        req.body
+      );
+
     res.status(200).json({
-      transactions,
+      message: "Transaction updated",
+      transaction: updatedTransaction,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.deleteTransaction = async (req, res) => {
+  try {
+    await transactionService.deleteTransaction(
+      req.user._id,
+      req.params.id
+    );
+
+    res.status(200).json({
+      message: "Transaction deleted",
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
