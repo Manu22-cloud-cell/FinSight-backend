@@ -118,3 +118,42 @@ exports.getDashboard = async (userId) => {
     healthScore: health.score,
   };
 };
+
+exports.getCategoryBreakdownByFilter = async (
+  userId,
+  type,
+  date,
+  month,
+  year
+) => {
+  let start, end;
+
+  if (type === "daily") {
+    start = new Date(`${date}T00:00:00`);
+    end = new Date(`${date}T23:59:59`);
+  }
+
+  else if (type === "monthly") {
+    start = new Date(year, month - 1, 1);
+    end = new Date(year, month, 0, 23, 59, 59);
+  }
+
+  else if (type === "yearly") {
+    start = new Date(`${year}-01-01`);
+    end = new Date(`${year}-12-31`);
+  }
+
+  const data = await analyticsRepo.getCategoryBreakdownByDateRange(
+    userId,
+    start,
+    end
+  );
+
+  const result = {};
+
+  data.forEach((item) => {
+    result[item._id] = item.total;
+  });
+
+  return result;
+};

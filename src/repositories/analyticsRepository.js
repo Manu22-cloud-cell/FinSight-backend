@@ -62,3 +62,21 @@ exports.getMonthlyTrends = async (userId) => {
     },
   ]);
 };
+
+exports.getCategoryBreakdownByDateRange = async (userId, start, end) => {
+  return Transaction.aggregate([
+    {
+      $match: {
+        userId: new mongoose.Types.ObjectId(userId),
+        date: { $gte: start, $lte: end },
+        type: "expense",
+      },
+    },
+    {
+      $group: {
+        _id: "$category",
+        total: { $sum: "$amount" },
+      },
+    },
+  ]);
+};

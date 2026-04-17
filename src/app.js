@@ -13,6 +13,8 @@ const predictionRoutes = require("./routes/predictionRoutes");
 const alertRoutes = require("./routes/alertRoutes");
 const financialHealthRoutes = require("./routes/financialHealthRoutes");
 const userRoutes = require("./routes/userRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+const reportRoutes=require("./routes/reportRoutes");
 
 app.get("/", (req, res) => {
   res.send("FinSight API is running");
@@ -25,5 +27,7 @@ app.use("/api/predictions", predictionRoutes);
 app.use("/api/alerts", alertRoutes);
 app.use("/api/health", financialHealthRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/reports", reportRoutes);
 
 module.exports = app;

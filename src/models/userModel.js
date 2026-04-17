@@ -22,6 +22,16 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
+    premiumSince: {
+      type: Date,
+    },
+
+    subscriptionType: {
+      type: String,
+      enum: ["monthly", "yearly", null],
+      default: null,
+    },
+
     profilePic: {
       type: String,
       default: "",
