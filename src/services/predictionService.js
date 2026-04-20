@@ -61,10 +61,10 @@ exports.getPrediction = async (user) => {
 
     const budget = user.monthlyBudget || 0;
 
-    // ✅ NEW: Remaining Budget
+    // Remaining Budget
     const remainingBudget = budget - totalExpense;
 
-    // ✅ NEW: Days to exhaust budget
+    // Days to exhaust budget
     let daysToExhaustBudget = null;
 
     if (dailyBurnRate > 0) {

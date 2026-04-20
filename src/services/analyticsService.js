@@ -116,6 +116,7 @@ exports.getDashboard = async (userId) => {
     trends: trendData,
     prediction,
     healthScore: health.score,
+    healthInsights: health.insights
   };
 };
 

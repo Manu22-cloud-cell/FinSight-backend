@@ -5,56 +5,58 @@ const userRepository = require("../repositories/userRepository");
 
 
 exports.checkAndCreateAlerts = async (userId) => {
+  try {
+    const alerts = await alertEngine.runChecks(userId);
 
-    try {
+    if (!alerts.length) return;
 
-        const alerts = await alertEngine.runChecks(userId);
-        const user = await userRepository.getUserById(userId);
+    const user = await userRepository.getUserById(userId);
 
-        for (let alert of alerts) {
+    for (let alert of alerts) {
 
-            // Prevent duplicate alerts (last 1 hour)
-            const existing = await alertRepository.getRecentAlert(userId, alert.type);
-            if (existing) {
-                console.log("Skipping duplicate alert:", alert.type);
-                continue;
-            }
+      const existing = await alertRepository.getRecentAlert(userId, alert.type);
 
-            // Save alert in DB
-            const savedAlert = await alertRepository.createAlert({
-                userId,
-                ...alert,
-            });
+      // Real-time
+      if (global.io) {
+        global.io.to(userId.toString()).emit("alert", {
+          message: alert.message,
+          type: alert.type,
+        });
+      }
 
-            // Real-time socket emit (CORRECT PLACE)
-            if (global.io) {
-                global.io.to(userId.toString()).emit("alert", {
-                    message: alert.message,
-                    type: alert.type,
-                });
-            }
+      if (existing) {
+        console.log("Skipping duplicate alert:", alert.type);
+        continue;
+      }
 
-            // Push to BullMQ queue (email handled in worker)
-            await alertQueue.add(
-                "send-alert",
-                {
-                    email: user.email,
-                    message: alert.message,
-                    type: alert.type,
-                    userId,
-                },
-                {
-                    attempts: 3,
-                    backoff: {
-                        type: "exponential",
-                        delay: 5000,
-                    },
-                }
-            );
+      // Save alert
+      await alertRepository.createAlert({
+        userId,
+        ...alert,
+      });
+
+    
+      // Background email
+      await alertQueue.add(
+        "send-alert",
+        {
+          email: user.email,
+          message: alert.message,
+          type: alert.type,
+          userId,
+        },
+        {
+          attempts: 3,
+          backoff: {
+            type: "exponential",
+            delay: 5000,
+          },
         }
-    } catch (error) {
-        console.error("Error in checkAndCreateAlerts:", error);
+      );
     }
+  } catch (error) {
+    console.error("Error in checkAndCreateAlerts:", error);
+  }
 };
 
 exports.getUserAlerts = async (userId) => {

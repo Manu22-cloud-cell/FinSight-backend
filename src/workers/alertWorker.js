@@ -1,3 +1,8 @@
+require("dotenv").config();
+const connectDB = require("../config/db");
+
+connectDB();
+
 const { Worker } = require("bullmq");
 const redis = require("../config/redis");
 const emailService = require("../services/emailService");
