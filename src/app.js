@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
@@ -14,7 +15,7 @@ const alertRoutes = require("./routes/alertRoutes");
 const financialHealthRoutes = require("./routes/financialHealthRoutes");
 const userRoutes = require("./routes/userRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-const reportRoutes=require("./routes/reportRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 
 app.get("/", (req, res) => {
   res.send("FinSight API is running");

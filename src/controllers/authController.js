@@ -27,3 +27,36 @@ exports.login = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// Forgot Password Controller
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    await authService.forgotPassword(email);
+
+    res.json({
+      message: "Password reset link sent to your email",
+    });
+  } catch (err) {
+    res.status(400).json({
+      error: err.message,
+    });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    await authService.resetPassword(token, newPassword);
+
+    res.json({
+      message: "Password reset successful",
+    });
+  } catch (err) {
+    res.status(400).json({
+      error: err.message,
+    });
+  }
+};
