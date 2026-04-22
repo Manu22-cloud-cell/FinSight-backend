@@ -1,28 +1,32 @@
 const paymentService = require("../services/paymentService");
 
-class PaymentController {
+// Create Order
+exports.createOrder = async (req, res) => {
+    try {
+        const userId = req.user._id; // from auth middleware
 
-    async createOrder(req, res) {
-        try {
-            const order = await paymentService.createOrder(req.user._id);
-            res.json(order);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
-        }
+        const order = await paymentService.createRazorpayOrder(userId);
+
+        res.json(order);
+    } catch (err) {
+        res.status(500).json({
+            error: err.message,
+        });
     }
+};
 
-    async verifyPayment(req, res) {
-        try {
-            const result = await paymentService.verifyPayment(
-                req.body,
-                req.user._id
-            );
+exports.verifyPayment = async (req, res) => {
+    try {
+        const userId = req.user._id;
 
-            res.json(result);
-        } catch (err) {
-            res.status(400).json({ message: err.message });
-        }
+        await paymentService.verifyPayment(req.body, userId);
+
+        res.json({
+            message: "Payment successful, premium activated",
+        });
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+        });
     }
-}
-
-module.exports = new PaymentController();
+};

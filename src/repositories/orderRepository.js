@@ -1,21 +1,13 @@
-const Order = require("../models/userModel");
+const Order = require("../models/orderModel");
 
-class OrderRepository {
-    async createOrder(data) {
-        return await Order.create(data);
-    }
+exports.createOrder = (data) => {
+    return Order.create(data);
+};
 
-    async findByOrderId(orderId) {
-        return await Order.findOne({ orderId });
-    }
+exports.updateOrder = (orderId, update) => {
+    return Order.findOneAndUpdate({ orderId }, update, { new: true });
+};
 
-    async updateOrder(orderId, updateData) {
-        return await Order.findOneAndUpdate(
-            { orderId },
-            updateData,
-            { returnDocument: "after" }
-        );
-    }
-}
-
-module.exports = new OrderRepository();
+exports.findByOrderId = (orderId) => {
+    return Order.findOne({ orderId });
+};
