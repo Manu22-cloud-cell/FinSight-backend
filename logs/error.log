@@ -1,0 +1,87 @@
+2026-04-23T13:31:11.287Z [ERROR]: Error: Date is required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:154:22)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T13:31:57.374Z [ERROR]: Error: Date is required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:154:22)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T13:32:27.298Z [ERROR]: Error: Month and year are required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:162:13)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T13:33:48.892Z [ERROR]: Error: Invalid credentials
+    at exports.loginUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\authService.js:56:11)
+    at async C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\authController.js:14:27
+2026-04-23T13:34:04.649Z [ERROR]: Error: Date is required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:154:22)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T13:34:12.662Z [ERROR]: Error: Month and year are required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:162:13)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T13:38:35.279Z [ERROR]: Error: Date is required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:154:22)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T13:41:22.639Z [ERROR]: Error: Date is required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:154:22)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T13:49:42.898Z [ERROR]: ::1 - - [23/Apr/2026:13:49:42 +0000] "POST /api/auth/login HTTP/1.1" 200 563 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-23T13:50:21.395Z [ERROR]: Error: Date is required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:154:22)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T13:51:11.245Z [ERROR]: Error: Month and year are required
+    at exports.getCategoryBreakdownByFilter (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:162:13)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T16:16:26.262Z [ERROR]: ::1 - - [23/Apr/2026:16:16:26 +0000] "GET /api/transactions?page=3&limit=5 HTTP/1.1" 200 593 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-23T16:24:25.813Z [ERROR]: TypeError: orderRepo.getOrderByOrderId is not a function
+    at exports.verifyPayment (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\paymentService.js:69:41)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\paymentController.js:17:26
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at exports.protect (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\authMiddleware.js:28:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-23T16:24:25.832Z [ERROR]: ::1 - - [23/Apr/2026:16:24:25 +0000] "POST /api/payments/verify HTTP/1.1" 400 57 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-23T16:29:44.955Z [ERROR]: ::1 - - [23/Apr/2026:16:29:44 +0000] "POST /api/auth/login HTTP/1.1" 200 563 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"

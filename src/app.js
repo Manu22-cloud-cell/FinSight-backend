@@ -16,6 +16,11 @@ const financialHealthRoutes = require("./routes/financialHealthRoutes");
 const userRoutes = require("./routes/userRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const morganMiddleware = require("./middlewares/loggerMiddleware");
+const errorHandler = require("./middlewares/errorHandler");
+
+// Request logging
+app.use(morganMiddleware);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
@@ -29,7 +34,6 @@ app.use("/api/reports", reportRoutes);
 
 
 // Central Error handler
-const errorHandler = require("./middlewares/errorHandler");
 app.use(errorHandler);
 
 module.exports = app;

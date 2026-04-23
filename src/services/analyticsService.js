@@ -151,23 +151,24 @@ exports.getCategoryBreakdownByFilter = async (
   let start, end;
 
   if (type === "daily") {
-    if (!date) throw new AppError("Date is required", 400);
+
+    //if (!date) throw new AppError("Date is required", 400);
 
     start = new Date(`${date}T00:00:00`);
     end = new Date(`${date}T23:59:59`);
   }
 
   else if (type === "monthly") {
-    if (!month || !year) {
-      throw new AppError("Month and year are required", 400);
-    }
+    //if (!month || !year) {
+      //throw new AppError("Month and year are required", 400);
+    //}
 
     start = new Date(year, month - 1, 1);
     end = new Date(year, month, 0, 23, 59, 59);
   }
 
   else if (type === "yearly") {
-    if (!year) throw new AppError("Year is required", 400);
+    //if (!year) throw new AppError("Year is required", 400);
 
     start = new Date(`${year}-01-01`);
     end = new Date(`${year}-12-31`);
