@@ -40,7 +40,7 @@ exports.getUserTransactions = async (userId, filters) => {
     transactions,
     total,
     page,
-    pages: Math.ceil(total / limit),
+    pages: Math.max(1, Math.ceil(total / limit)),
   };
 };
 

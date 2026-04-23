@@ -8,14 +8,23 @@ const PasswordResetToken = require("../models/passwordResetTokenModel");
 const User = require("../models/userModel");
 const { sendEmail } = require("./emailService");
 const { resetPasswordTemplate } = require("../utils/emailTemplates");
+const AppError = require("../utils/AppError");
 
-
+// REGISTER
 exports.registerUser = async (data) => {
   const { name, email, password, monthlyBudget } = data;
 
+  if (!name || !email || !password) {
+    throw new AppError("Name, email and password are required", 400);
+  }
+
+  if (password.length < 6) {
+    throw new AppError("Password must be at least 6 characters", 400);
+  }
+
   const existingUser = await userRepo.findUserByEmail(email);
   if (existingUser) {
-    throw new Error("User already exists");
+    throw new AppError("User already exists", 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,15 +39,21 @@ exports.registerUser = async (data) => {
   return user;
 };
 
+
+// LOGIN
 exports.loginUser = async ({ email, password }) => {
+  if (!email || !password) {
+    throw new AppError("Email and password are required", 400);
+  }
+
   const user = await userRepo.findUserByEmail(email);
   if (!user) {
-    throw new Error("Invalid credentials");
+    throw new AppError("Invalid credentials", 401);
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new Error("Invalid credentials");
+    throw new AppError("Invalid credentials", 401);
   }
 
   const token = jwt.sign(
@@ -50,13 +65,21 @@ exports.loginUser = async ({ email, password }) => {
   return { user, token };
 };
 
-// Forgot Password
+
+// FORGOT PASSWORD
 exports.forgotPassword = async (email) => {
+  if (!email) {
+    throw new AppError("Email is required", 400);
+  }
+
   const user = await User.findOne({ email });
 
   if (!user) {
     return true; // don't reveal user existence
   }
+
+  // REMOVE old tokens before creating new one
+  await PasswordResetToken.deleteMany({ user: user._id });
 
   const rawToken = uuidv4();
 
@@ -73,22 +96,31 @@ exports.forgotPassword = async (email) => {
     expiresAt,
   });
 
-  // Create frontend reset link
   const resetLink = `${process.env.CLIENT_URL}/reset-password/${rawToken}`;
 
-  // Send email
-  await sendEmail({
+  sendEmail({
     to: user.email,
     subject: "Reset your FinSight password",
     text: `Reset your password: ${resetLink}`,
     html: resetPasswordTemplate(user.name, resetLink),
+  }).catch((err) => {
+    console.error("Email failed:", err.message);
   });
 
   return true;
 };
 
+
+// RESET PASSWORD
 exports.resetPassword = async (token, newPassword) => {
-  // Hash incoming token
+  if (!token || !newPassword) {
+    throw new AppError("Token and new password are required", 400);
+  }
+
+  if (newPassword.length < 6) {
+    throw new AppError("Password must be at least 6 characters", 400);
+  }
+
   const hashedToken = crypto
     .createHash("sha256")
     .update(token)
@@ -100,11 +132,11 @@ exports.resetPassword = async (token, newPassword) => {
   });
 
   if (!resetDoc) {
-    throw new Error("Invalid or already used token");
+    throw new AppError("Invalid or already used token", 400);
   }
 
   if (resetDoc.expiresAt < new Date()) {
-    throw new Error("Token expired");
+    throw new AppError("Token expired", 400);
   }
 
   const user = await User.findById(resetDoc.user);
@@ -113,8 +145,8 @@ exports.resetPassword = async (token, newPassword) => {
     return true; // don't reveal user existence
   }
 
-  // Update password
   const newHashedPassword = await bcrypt.hash(newPassword, 10);
+
   user.password = newHashedPassword;
   await user.save();
 
@@ -124,4 +156,3 @@ exports.resetPassword = async (token, newPassword) => {
 
   return true;
 };
-

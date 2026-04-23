@@ -17,10 +17,6 @@ const userRoutes = require("./routes/userRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 
-app.get("/", (req, res) => {
-  res.send("FinSight API is running");
-});
-
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/analytics", analyticsRoutes);
@@ -30,5 +26,10 @@ app.use("/api/health", financialHealthRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/reports", reportRoutes);
+
+
+// Central Error handler
+const errorHandler = require("./middlewares/errorHandler");
+app.use(errorHandler);
 
 module.exports = app;

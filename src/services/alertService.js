@@ -2,31 +2,44 @@ const alertRepository = require("../repositories/alertRepository");
 const alertEngine = require("./alertEngine");
 const alertQueue = require("../queues/alertQueue");
 const userRepository = require("../repositories/userRepository");
+const AppError = require("../utils/AppError");
 
 
+// ================= CHECK & CREATE ALERTS =================
 exports.checkAndCreateAlerts = async (userId) => {
-  try {
-    const alerts = await alertEngine.runChecks(userId);
+  if (!userId) {
+    throw new AppError("User ID is required", 400);
+  }
 
-    if (!alerts.length) return;
+  const alerts = await alertEngine.runChecks(userId);
 
-    const user = await userRepository.getUserById(userId);
+  if (!alerts || !alerts.length) return;
 
-    for (let alert of alerts) {
+  const user = await userRepository.getUserById(userId);
 
-      const existing = await alertRepository.getRecentAlert(userId, alert.type);
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
 
-      // Real-time
+  // Process alerts in parallel (performance improvement)
+  await Promise.all(
+    alerts.map(async (alert) => {
+      const existing = await alertRepository.getRecentAlert(
+        userId,
+        alert.type
+      );
+
+      if (existing) {
+        console.log("Skipping duplicate alert:", alert.type);
+        return;
+      }
+
+      // Real-time notification
       if (global.io) {
         global.io.to(userId.toString()).emit("alert", {
           message: alert.message,
           type: alert.type,
         });
-      }
-
-      if (existing) {
-        console.log("Skipping duplicate alert:", alert.type);
-        continue;
       }
 
       // Save alert
@@ -35,8 +48,7 @@ exports.checkAndCreateAlerts = async (userId) => {
         ...alert,
       });
 
-    
-      // Background email
+      // Background email (queue)
       await alertQueue.add(
         "send-alert",
         {
@@ -53,18 +65,16 @@ exports.checkAndCreateAlerts = async (userId) => {
           },
         }
       );
-    }
-  } catch (error) {
-    console.error("Error in checkAndCreateAlerts:", error);
-  }
+    })
+  );
 };
 
+
+// ================= GET ALERTS =================
 exports.getUserAlerts = async (userId) => {
-    
-    try {
-        return await alertRepository.getUserAlerts(userId);
-    } catch (error) {
-        console.error("Error in getUserAlerts:", error);
-        throw error;
-    }
+  if (!userId) {
+    throw new AppError("User ID is required", 400);
+  }
+
+  return await alertRepository.getUserAlerts(userId);
 };

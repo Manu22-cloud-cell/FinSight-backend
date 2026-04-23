@@ -1,32 +1,22 @@
+const asyncHandler = require("../utils/asyncHandler");
 const paymentService = require("../services/paymentService");
 
 // Create Order
-exports.createOrder = async (req, res) => {
-    try {
-        const userId = req.user._id; // from auth middleware
+exports.createOrder = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
 
-        const order = await paymentService.createRazorpayOrder(userId);
+    const order = await paymentService.createRazorpayOrder(userId);
 
-        res.json(order);
-    } catch (err) {
-        res.status(500).json({
-            error: err.message,
-        });
-    }
-};
+    res.status(200).json(order);
+});
 
-exports.verifyPayment = async (req, res) => {
-    try {
-        const userId = req.user._id;
+// Verify Payment
+exports.verifyPayment = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
 
-        await paymentService.verifyPayment(req.body, userId);
+    await paymentService.verifyPayment(req.body, userId);
 
-        res.json({
-            message: "Payment successful, premium activated",
-        });
-    } catch (err) {
-        res.status(400).json({
-            error: err.message,
-        });
-    }
-};
+    res.status(200).json({
+        message: "Payment successful, premium activated",
+    });
+});

@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const { protect } = require("../middlewares/authMiddleware");
-const isPremium = require("../middlewares/premiumMiddleware");
+const isPremiumUser = require("../middlewares/premiumMiddleware");
 const predictionController = require("../controllers/predictionController");
 
-router.get("/", protect, predictionController.getPrediction);
+router.get("/", protect, isPremiumUser, predictionController.getPrediction);
 
 module.exports = router;

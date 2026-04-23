@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const alertController = require("../controllers/alertController");
 const { protect } = require("../middlewares/authMiddleware");
-const isPremium = require("../middlewares/premiumMiddleware");
+const isPremiumUser = require("../middlewares/premiumMiddleware");
 
-router.get("/", protect, alertController.getAlerts);
+router.get("/", protect, isPremiumUser, alertController.getAlerts);
 
 module.exports = router;

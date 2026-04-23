@@ -1,13 +1,12 @@
+const asyncHandler = require("../utils/asyncHandler");
 const financialHealthService = require("../services/financialHealthService");
 
-exports.getHealthScore = async (req, res) => {
-    try {
-        const data = await financialHealthService.getFinancialHealthScore(req.user._id);
+exports.getHealthScore = asyncHandler(async (req, res) => {
+    const data = await financialHealthService.getFinancialHealthScore(
+        req.user._id
+    );
 
-        res.status(200).json({
-            health: data,
-        });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
+    res.status(200).json({
+        health: data,
+    });
+});

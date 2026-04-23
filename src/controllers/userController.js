@@ -1,11 +1,13 @@
+const asyncHandler = require("../utils/asyncHandler");
 const userService = require("../services/userService");
 
-exports.getProfile = async (req, res) => {
+exports.getProfile = asyncHandler(async (req, res) => {
   const user = await userService.getUserProfile(req.user._id);
-  res.json(user);
-};
 
-exports.updateProfile = async (req, res) => {
+  res.json(user);
+});
+
+exports.updateProfile = asyncHandler(async (req, res) => {
   const updated = await userService.updateProfile(
     req.user._id,
     req.body,
@@ -13,9 +15,9 @@ exports.updateProfile = async (req, res) => {
   );
 
   res.json({ message: "Profile updated", user: updated });
-};
+});
 
-exports.changePassword = async (req, res) => {
+exports.changePassword = asyncHandler(async (req, res) => {
   await userService.changePassword(
     req.user._id,
     req.body.oldPassword,
@@ -23,4 +25,4 @@ exports.changePassword = async (req, res) => {
   );
 
   res.json({ message: "Password updated" });
-};
+});

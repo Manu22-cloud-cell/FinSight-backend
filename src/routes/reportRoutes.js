@@ -5,8 +5,8 @@ const reportController = require("../controllers/reportController");
 const { protect } = require("../middlewares/authMiddleware");
 const isPremiumUser = require("../middlewares/premiumMiddleware");
 
-router.get("/", protect, reportController.getReports);
-router.get("/download", protect, reportController.downloadReport);
-router.get("/history", protect, reportController.getDownloadedReports);
+router.get("/", protect, isPremiumUser, reportController.getReports);
+router.get("/download", protect, isPremiumUser, reportController.downloadReport);
+router.get("/history", protect, isPremiumUser, reportController.getDownloadedReports);
 
 module.exports = router;

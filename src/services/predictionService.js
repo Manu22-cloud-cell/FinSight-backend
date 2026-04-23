@@ -1,8 +1,12 @@
 const Transaction = require("../models/transactionModel");
+const AppError = require("../utils/AppError");
 
 exports.getPrediction = async (user) => {
-    const userId = user._id;
+    if (!user || !user._id) {
+        throw new AppError("User not found", 404);
+    }
 
+    const userId = user._id;
     const today = new Date();
 
     // Start of month
@@ -21,7 +25,7 @@ exports.getPrediction = async (user) => {
         date: { $gte: startOfMonth },
     });
 
-    const totalExpense = transactions.reduce(
+    const totalExpense = (transactions || []).reduce(
         (sum, t) => sum + t.amount,
         0
     );
@@ -36,16 +40,16 @@ exports.getPrediction = async (user) => {
         date: { $gte: last7Days },
     });
 
-    const recentTotal = recentTransactions.reduce(
+    const recentTotal = (recentTransactions || []).reduce(
         (sum, t) => sum + t.amount,
         0
     );
 
     // Safe burn rate
     const safeDays = Math.max(daysPassed, 3);
-    const fallbackBurnRate = totalExpense / safeDays;
+    const fallbackBurnRate = safeDays > 0 ? totalExpense / safeDays : 0;
 
-    const recentDailyAvg = recentTotal / 7;
+    const recentDailyAvg = recentTotal > 0 ? recentTotal / 7 : 0;
 
     const dailyBurnRate =
         recentTotal > 0 ? recentDailyAvg : fallbackBurnRate;
@@ -87,11 +91,11 @@ exports.getPrediction = async (user) => {
 
     return {
         totalExpense,
-        dailyBurnRate: Math.round(dailyBurnRate),
-        predictedExpense: Math.round(predictedExpense),
+        dailyBurnRate: Math.round(dailyBurnRate || 0),
+        predictedExpense: Math.round(predictedExpense || 0),
         budget,
-        remainingBudget: Math.round(remainingBudget), // ✅ NEW
-        daysToExhaustBudget, // ✅ NEW
+        remainingBudget: Math.round(remainingBudget || 0),
+        daysToExhaustBudget,
         message,
     };
 };

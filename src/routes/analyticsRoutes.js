@@ -2,18 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const { protect } = require("../middlewares/authMiddleware");
-const isPremium = require("../middlewares/premiumMiddleware");
+const isPremiumUser = require("../middlewares/premiumMiddleware");
 const analyticsController = require("../controllers/analyticsController");
 
-router.get("/summary", protect, analyticsController.getSummary);
-router.get("/categories", protect, analyticsController.getCategoryBreakdown);
-router.get(
-    "/category-filter",
-    protect,
-    analyticsController.getCategoryByFilter
-);
-router.get("/trends", protect, analyticsController.getMonthlyTrends);
-router.get("/dashboard", protect, analyticsController.getDashboard);
+router.get("/summary", protect, isPremiumUser, analyticsController.getSummary);
+router.get("/categories", protect, isPremiumUser, analyticsController.getCategoryBreakdown);
+router.get("/category-filter", protect, isPremiumUser, analyticsController.getCategoryByFilter);
+router.get("/trends", protect, isPremiumUser, analyticsController.getMonthlyTrends);
+router.get("/dashboard", protect, isPremiumUser, analyticsController.getDashboard);
 
 
 module.exports = router;

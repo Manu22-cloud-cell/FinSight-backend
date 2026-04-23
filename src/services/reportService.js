@@ -1,5 +1,6 @@
 const reportRepository = require("../repositories/reportRepository");
 const s3 = require("../config/s3");
+const AppError = require("../utils/AppError");
 
 // CSV Generators
 const generateCSV = (transactions) => {
@@ -24,69 +25,7 @@ const generateYearlyCSV = (data, year) => {
   return csv;
 };
 
-// Daily
-exports.getDailyReport = async (userId, date) => {
-  if (!date) {
-    date = new Date().toISOString().split("T")[0];
-  }
-
-  const start = new Date(`${date}T00:00:00`);
-  const end = new Date(`${date}T23:59:59`);
-
-  const transactions =
-    await reportRepository.getTransactionsByDateRange(userId, start, end);
-
-  const totals = calculateTotals(transactions);
-
-  return { transactions, totals };
-};
-
-// Monthly
-exports.getMonthlyReport = async (userId, month, year) => {
-  if (!month || !year) {
-    const now = new Date();
-    month = now.getMonth() + 1;
-    year = now.getFullYear();
-  }
-
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month, 0, 23, 59, 59);
-
-  const transactions =
-    await reportRepository.getTransactionsByDateRange(userId, start, end);
-
-  const totals = calculateTotals(transactions);
-
-  return { transactions, totals };
-};
-
-// Yearly
-exports.getYearlyReport = async (userId, year) => {
-  if (!year) {
-    year = new Date().getFullYear();
-  }
-
-  const data = await reportRepository.getYearlyTransactions(userId, year);
-
-  let totalIncome = 0;
-  let totalExpense = 0;
-
-  data.forEach((m) => {
-    totalIncome += m.income;
-    totalExpense += m.expense;
-  });
-
-  return {
-    data,
-    totals: {
-      totalIncome,
-      totalExpense,
-      balance: totalIncome - totalExpense,
-    },
-  };
-};
-
-// Helper function to calculate subtotal
+// Helper function
 const calculateTotals = (transactions) => {
   let income = 0;
   let expense = 0;
@@ -103,8 +42,97 @@ const calculateTotals = (transactions) => {
   };
 };
 
-// Download + Upload to S3
+
+// ===================== REPORTS ===================== //
+
+// Daily
+exports.getDailyReport = async (userId, date) => {
+  if (!userId) {
+    throw new AppError("User ID is required", 400);
+  }
+
+  if (!date) {
+    date = new Date().toISOString().split("T")[0];
+  }
+
+  const start = new Date(`${date}T00:00:00`);
+  const end = new Date(`${date}T23:59:59`);
+
+  const transactions =
+    await reportRepository.getTransactionsByDateRange(userId, start, end);
+
+  const totals = calculateTotals(transactions || []);
+
+  return { transactions, totals };
+};
+
+
+// Monthly
+exports.getMonthlyReport = async (userId, month, year) => {
+  if (!userId) {
+    throw new AppError("User ID is required", 400);
+  }
+
+  if (!month || !year) {
+    const now = new Date();
+    month = now.getMonth() + 1;
+    year = now.getFullYear();
+  }
+
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month, 0, 23, 59, 59);
+
+  const transactions =
+    await reportRepository.getTransactionsByDateRange(userId, start, end);
+
+  const totals = calculateTotals(transactions || []);
+
+  return { transactions, totals };
+};
+
+
+// Yearly
+exports.getYearlyReport = async (userId, year) => {
+  if (!userId) {
+    throw new AppError("User ID is required", 400);
+  }
+
+  if (!year) {
+    year = new Date().getFullYear();
+  }
+
+  const data = await reportRepository.getYearlyTransactions(userId, year);
+
+  let totalIncome = 0;
+  let totalExpense = 0;
+
+  (data || []).forEach((m) => {
+    totalIncome += m.income;
+    totalExpense += m.expense;
+  });
+
+  return {
+    data,
+    totals: {
+      totalIncome,
+      totalExpense,
+      balance: totalIncome - totalExpense,
+    },
+  };
+};
+
+
+// ===================== DOWNLOAD ===================== //
+
 exports.downloadReport = async (userId, type, year) => {
+  if (!userId) {
+    throw new AppError("User ID is required", 400);
+  }
+
+  if (!type) {
+    throw new AppError("Report type is required", 400);
+  }
+
   let csv;
   let fileName;
 
@@ -127,10 +155,10 @@ exports.downloadReport = async (userId, type, year) => {
   }
 
   else {
-    throw new Error("Invalid report type");
+    throw new AppError("Invalid report type", 400);
   }
 
-  // Upload logic (your fixed v3 code)
+  // Upload to S3
   const { PutObjectCommand } = require("@aws-sdk/client-s3");
 
   const command = new PutObjectCommand({
@@ -140,7 +168,12 @@ exports.downloadReport = async (userId, type, year) => {
     ContentType: "text/csv",
   });
 
-  await s3.send(command);
+  try {
+    await s3.send(command);
+  } catch (err) {
+    console.error("S3 Upload Error:", err.message);
+    throw new AppError("Failed to upload report", 500);
+  }
 
   const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/reports/${fileName}`;
 
@@ -152,8 +185,13 @@ exports.downloadReport = async (userId, type, year) => {
   return fileUrl;
 };
 
-// History
+
+// ===================== HISTORY ===================== //
+
 exports.getDownloadedReports = async (userId) => {
+  if (!userId) {
+    throw new AppError("User ID is required", 400);
+  }
+
   return reportRepository.getDownloadedReports(userId);
 };
-

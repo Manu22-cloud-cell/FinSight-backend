@@ -1,21 +1,31 @@
 const predictionService = require("./predictionService");
 const analyticsService = require("./analyticsService");
 const userRepository = require("../repositories/userRepository");
+const AppError = require("../utils/AppError");
 
 exports.getFinancialHealthScore = async (userId) => {
+    if (!userId) {
+        throw new AppError("User ID is required", 400);
+    }
+
     // Get required data
     const user = await userRepository.getUserById(userId);
+
+    if (!user) {
+        throw new AppError("User not found", 404);
+    }
+
     const summary = await analyticsService.getSummary(userId);
     const prediction = await predictionService.getPrediction(user);
 
     const budget = user.monthlyBudget || 0;
-    const expense = summary.totalExpense;
-    const income = summary.totalIncome;
+    const expense = summary?.totalExpense || 0;
+    const income = summary?.totalIncome || 0;
 
     let score = 100;
     let insights = [];
 
-    // 1. Budget Usage (40 points)
+    // ================= Budget Usage (40 points) =================
     if (budget > 0) {
         const usage = expense / budget;
 
@@ -33,7 +43,7 @@ exports.getFinancialHealthScore = async (userId) => {
         }
     }
 
-    // 2. Savings Ratio (30 points)
+    // ================= Savings Ratio (30 points) =================
     if (income > 0) {
         const savingsRatio = (income - expense) / income;
 
@@ -46,17 +56,21 @@ exports.getFinancialHealthScore = async (userId) => {
         } else {
             insights.push("💰 Good savings habit");
         }
+    } else {
+        insights.push("ℹ️ No income data available");
     }
 
-    // 3. Prediction Risk (30 points)
-    if (prediction.predictedExpense > budget * 1.2) {
-        score -= 30;
-        insights.push("🚨 High future overspending risk");
-    } else if (prediction.predictedExpense > budget) {
-        score -= 20;
-        insights.push("⚠️ Future budget risk detected");
-    } else {
-        insights.push("📉 Future spending looks stable");
+    // ================= Prediction Risk (30 points) =================
+    if (budget > 0) {
+        if (prediction.predictedExpense > budget * 1.2) {
+            score -= 30;
+            insights.push("🚨 High future overspending risk");
+        } else if (prediction.predictedExpense > budget) {
+            score -= 20;
+            insights.push("⚠️ Future budget risk detected");
+        } else {
+            insights.push("📉 Future spending looks stable");
+        }
     }
 
     // Clamp score between 0–100
