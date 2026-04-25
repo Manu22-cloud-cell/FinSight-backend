@@ -31,7 +31,7 @@
     "nodemailer": "^8.0.4",
     "razorpay": "^2.9.6",
     "socket.io": "^4.8.3",
-    "uuid": "^14.0.0",
+    "uuid": "^8.3.2",
     "winston": "^3.19.0"
   },
   "devDependencies": {
