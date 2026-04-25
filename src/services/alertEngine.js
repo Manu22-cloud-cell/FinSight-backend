@@ -56,7 +56,7 @@ exports.runChecks = async (userId) => {
   if (budget > 0 && totalExpense > budget) {
     alerts.push({
       type: "BUDGET_EXCEEDED",
-      message: "You have exceeded your monthly budget!",
+      message: "🚨 You have exceeded your monthly budget!",
     });
   }
 
@@ -64,7 +64,7 @@ exports.runChecks = async (userId) => {
   if (budget > 0 && todayExpense > budget * 0.3) {
     alerts.push({
       type: "HIGH_SPENDING",
-      message: "High spending detected today!",
+      message: "⚠️ High spending detected today!",
     });
   }
 
@@ -82,7 +82,7 @@ exports.runChecks = async (userId) => {
     if (budget > 0 && categoryMap[category] > budget * 0.4) {
       alerts.push({
         type: "CATEGORY_LIMIT",
-        message: `${category} spending is too high`,
+        message: `⚠️ ${category} spending is too high`,
       });
     }
   });
@@ -91,15 +91,19 @@ exports.runChecks = async (userId) => {
   try {
     const prediction = await predictionService.getPrediction(user);
 
+    // Overspending risk
     if (budget > 0 && prediction.predictedExpense > budget * 1.1) {
       alerts.push({
         type: "PREDICTION_ALERT",
-        message: `${prediction.message} (Predicted: ₹${prediction.predictedExpense})`,
+        message: `🚨 ${prediction.message} (Predicted: ₹${prediction.predictedExpense})`,
       });
     }
 
+    // Days to exhaust (only if budget still remaining)
     if (
+      prediction.remainingBudget > 0 && // 🔥 KEY FIX
       prediction.daysToExhaustBudget !== null &&
+      prediction.daysToExhaustBudget > 0 &&
       prediction.daysToExhaustBudget <= 5
     ) {
       alerts.push({
@@ -107,8 +111,16 @@ exports.runChecks = async (userId) => {
         message: `⚠️ You may run out of budget in ${prediction.daysToExhaustBudget} days`,
       });
     }
+
+    // Already exhausted (explicit alert)
+    if (prediction.remainingBudget === 0 && totalExpense > budget) {
+      alerts.push({
+        type: "PREDICTION_ALERT",
+        message: "🚨 Your budget is already exhausted!",
+      });
+    }
+
   } catch (error) {
-    // Don't break alerts due to prediction failure
     console.error("Prediction error:", error.message);
   }
 

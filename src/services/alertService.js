@@ -78,3 +78,18 @@ exports.getUserAlerts = async (userId) => {
 
   return await alertRepository.getUserAlerts(userId);
 };
+
+exports.markAsRead = async (alertId, userId) => {
+  const alert = await alertRepository.updateAlert(alertId, { isRead: true });
+
+  if (!alert) {
+    throw new AppError("Alert not found", 404);
+  }
+
+  // Optional (recommended for safety)
+  if (alert.userId.toString() !== userId.toString()) {
+    throw new AppError("Unauthorized", 403);
+  }
+
+  return alert;
+};

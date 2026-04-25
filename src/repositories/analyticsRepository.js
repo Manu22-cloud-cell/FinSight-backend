@@ -19,8 +19,25 @@ exports.getSummary = async (userId) => {
   return result;
 };
 
+exports.getSummaryByDateRange = (userId, start, end) => {
+  return Transaction.aggregate([
+    {
+      $match: {
+        userId: new mongoose.Types.ObjectId(userId),
+        date: { $gte: start, $lte: end },
+      },
+    },
+    {
+      $group: {
+        _id: "$type",
+        total: { $sum: "$amount" },
+      },
+    },
+  ]);
+};
+
 exports.getCategoryBreakdown = async (userId) => {
- 
+
   return await Transaction.aggregate([
     {
       $match: {

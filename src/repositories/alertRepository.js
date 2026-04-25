@@ -21,3 +21,7 @@ exports.getRecentAlert = async (userId, type) => {
         createdAt: { $gte: oneHourAgo },
     });
 };
+
+exports.updateAlert = (id, update) => {
+    return Alert.findByIdAndUpdate(id, update, { new: true });
+};

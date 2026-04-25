@@ -44,6 +44,16 @@ exports.getUserTransactions = async (userId, filters) => {
   };
 };
 
+// ================= GET TRANSACTION BY ID =================
+exports.getTransactionById = async (userId, transactionId) => {
+  const transaction = await Transaction.findOne({
+    _id: transactionId,
+    userId: userId,
+  });
+
+  return transaction;
+};
+
 // UPDATE
 exports.updateTransaction = async (userId, transactionId, data) => {
   const transaction = await Transaction.findOneAndUpdate(

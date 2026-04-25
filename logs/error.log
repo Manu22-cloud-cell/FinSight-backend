@@ -107,3 +107,94 @@
     at async model.Query._findOne (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\mongoose\lib\query.js:2731:15)
     at async model.Query.exec (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\mongoose\lib\query.js:4726:63)
 2026-04-24T06:20:56.747Z [ERROR]: ::1 - - [24/Apr/2026:06:20:56 +0000] "POST /api/auth/login HTTP/1.1" 200 563 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T07:28:31.498Z [ERROR]: ::1 - - [24/Apr/2026:07:28:31 +0000] "POST /api/auth/login HTTP/1.1" 200 563 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T07:44:54.414Z [ERROR]: ::1 - - [24/Apr/2026:07:44:54 +0000] "GET /api/transactions?page=1&limit=5 HTTP/1.1" 200 598 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T07:45:39.279Z [ERROR]: ::1 - - [24/Apr/2026:07:45:39 +0000] "POST /api/payments/verify HTTP/1.1" 200 51 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T07:45:53.294Z [ERROR]: ::1 - - [24/Apr/2026:07:45:53 +0000] "GET /api/analytics/dashboard HTTP/1.1" 200 521 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T08:02:28.450Z [ERROR]: ::1 - - [24/Apr/2026:08:02:28 +0000] "POST /api/payments/verify HTTP/1.1" 200 51 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T08:05:33.535Z [ERROR]: ::1 - - [24/Apr/2026:08:05:33 +0000] "POST /api/auth/login HTTP/1.1" 429 54 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T08:06:07.510Z [ERROR]: ::1 - - [24/Apr/2026:08:06:07 +0000] "POST /api/auth/login HTTP/1.1" 429 54 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T09:18:55.546Z [ERROR]: ::1 - - [24/Apr/2026:09:18:55 +0000] "POST /api/payments/verify HTTP/1.1" 200 51 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T09:57:17.350Z [ERROR]: ::1 - - [24/Apr/2026:09:57:17 +0000] "POST /api/payments/verify HTTP/1.1" 200 51 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T10:47:27.774Z [ERROR]: Error: Payment already processed
+    at exports.verifyPayment (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\paymentService.js:81:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\paymentController.js:18:5
+2026-04-24T10:52:15.572Z [ERROR]: ::1 - - [24/Apr/2026:10:52:15 +0000] "POST /api/auth/login HTTP/1.1" 429 54 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T11:03:08.068Z [ERROR]: ::1 - - [24/Apr/2026:11:03:08 +0000] "POST /api/payments/verify HTTP/1.1" 200 51 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T11:29:17.543Z [ERROR]: ::1 - - [24/Apr/2026:11:29:17 +0000] "POST /api/auth/login HTTP/1.1" 200 563 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T11:29:18.097Z [ERROR]: ::1 - - [24/Apr/2026:11:29:18 +0000] "GET /api/alerts HTTP/1.1" 200 5107 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T11:30:16.572Z [ERROR]: ::1 - - [24/Apr/2026:11:30:16 +0000] "GET /api/alerts HTTP/1.1" 200 5369 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T14:15:51.835Z [ERROR]: ::1 - - [24/Apr/2026:14:15:51 +0000] "GET /api/alerts HTTP/1.1" 200 5631 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T14:21:03.291Z [ERROR]: ::1 - - [24/Apr/2026:14:21:03 +0000] "GET /api/transactions?page=1&limit=5 HTTP/1.1" 200 599 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T14:51:43.048Z [ERROR]: ::1 - - [24/Apr/2026:14:51:43 +0000] "POST /api/auth/login HTTP/1.1" 200 563 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-24T14:51:43.940Z [ERROR]: ::1 - - [24/Apr/2026:14:51:43 +0000] "GET /api/alerts HTTP/1.1" 200 5631 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-25T06:35:13.059Z [ERROR]: ::1 - - [25/Apr/2026:06:35:13 +0000] "POST /api/auth/login HTTP/1.1" 200 563 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+2026-04-25T06:35:22.657Z [ERROR]: ReferenceError: alertRepo is not defined
+    at exports.markAsRead (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\alertService.js:83:17)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\alertController.js:10:36
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-25T07:25:59.512Z [ERROR]: ReferenceError: analyticsService is not defined
+    at exports.getDashboard (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:132:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:29:16
+2026-04-25T08:14:12.637Z [ERROR]: ReferenceError: summaryRaw is not defined
+    at exports.getDashboard (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:161:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:29:16
+2026-04-25T08:14:24.541Z [ERROR]: ReferenceError: summaryRaw is not defined
+    at exports.getDashboard (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:161:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:29:16
+2026-04-25T08:23:19.375Z [ERROR]: ReferenceError: summary is not defined
+    at exports.getFinancialHealthScore (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\financialHealthService.js:97:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async exports.getDashboard (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\analyticsService.js:188:18)
+    at async C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:29:16
+2026-04-25T11:15:57.421Z [ERROR]: ReferenceError: year is not defined
+    at exports.deleteTransaction (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\transactionService.js:86:58)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\transactionController.js:40:3
+2026-04-25T11:47:49.504Z [ERROR]: TypeError: analyticsService.getCategoryBreakdownByFilter is not a function
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-25T11:49:10.661Z [ERROR]: TypeError: analyticsService.getCategoryBreakdownByFilter is not a function
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\analyticsController.js:40:39
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at isPremiumUser (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\premiumMiddleware.js:12:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-25T12:01:54.886Z [ERROR]: TypeError: transactionRepo.getTransactionById is not a function
+    at exports.deleteTransaction (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\transactionService.js:87:31)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\transactionController.js:40:28
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at exports.protect (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\authMiddleware.js:28:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-25T12:02:07.604Z [ERROR]: TypeError: transactionRepo.getTransactionById is not a function
+    at exports.deleteTransaction (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\transactionService.js:87:31)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\transactionController.js:40:28
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at exports.protect (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\authMiddleware.js:28:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-04-25T12:11:58.911Z [ERROR]: ReferenceError: mongoose is not defined
+    at exports.getTransactionById (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\repositories\transactionRepository.js:51:17)
+    at exports.deleteTransaction (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\services\transactionService.js:87:31)
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\controllers\transactionController.js:40:28
+    at C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\utils\asyncHandler.js:2:21
+    at Layer.handleRequest (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\node_modules\router\lib\route.js:157:13)
+    at exports.protect (C:\Users\DELL\Desktop\sharpenerProjects\finsight\finsight-backend\src\middlewares\authMiddleware.js:28:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)

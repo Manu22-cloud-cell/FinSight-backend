@@ -5,5 +5,6 @@ const { protect } = require("../middlewares/authMiddleware");
 const isPremiumUser = require("../middlewares/premiumMiddleware");
 
 router.get("/", protect, isPremiumUser, alertController.getAlerts);
+router.put("/:id/read", protect, isPremiumUser, alertController.markAsRead);
 
 module.exports = router;

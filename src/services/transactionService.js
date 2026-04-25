@@ -1,6 +1,12 @@
 const transactionRepo = require("../repositories/transactionRepository");
 const alertService = require("./alertService");
 const AppError = require("../utils/AppError");
+const { deleteCache } = require("../utils/cache");
+
+// Shared helper
+const getYearMonthKey = (date = new Date()) => {
+    return `${date.getFullYear()}-${date.getMonth() + 1}`;
+};
 
 // ADD TRANSACTION
 exports.addTransaction = async (userId, data) => {
@@ -19,12 +25,15 @@ exports.addTransaction = async (userId, data) => {
         throw new AppError("Failed to create transaction", 500);
     }
 
-    // Trigger alerts AFTER transaction
+    const txDate = new Date(data.date || Date.now());
+    const yearMonth = getYearMonthKey(txDate);
+
+    await deleteCache(`cache:dashboard:${userId}:${yearMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${yearMonth}`);
+
     alertService.checkAndCreateAlerts(userId).catch((err) => {
         console.error("Alert failed:", err.message);
     });
-
-    console.log("Triggering alerts for user:", userId);
 
     return transaction;
 };
@@ -53,7 +62,12 @@ exports.updateTransaction = async (userId, transactionId, data) => {
         throw new AppError("Transaction not found or update failed", 404);
     }
 
-    // Trigger alerts after update
+    const txDate = new Date(updatedTransaction.date);
+    const yearMonth = getYearMonthKey(txDate);
+
+    await deleteCache(`cache:dashboard:${userId}:${yearMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${yearMonth}`);
+
     alertService.checkAndCreateAlerts(userId).catch((err) => {
         console.error("Alert failed:", err.message);
     });
@@ -68,14 +82,27 @@ exports.deleteTransaction = async (userId, transactionId) => {
         throw new AppError("Transaction ID is required", 400);
     }
 
+    // Get transaction BEFORE delete
+    const existingTransaction =
+        await transactionRepo.getTransactionById(userId, transactionId);
+
+    if (!existingTransaction) {
+        throw new AppError("Transaction not found", 404);
+    }
+
     const deleted =
         await transactionRepo.deleteTransaction(userId, transactionId);
 
     if (!deleted) {
-        throw new AppError("Transaction not found or delete failed", 404);
+        throw new AppError("Transaction delete failed", 500);
     }
 
-    // Trigger alerts after delete
+    const txDate = new Date(existingTransaction.date);
+    const yearMonth = getYearMonthKey(txDate);
+
+    await deleteCache(`cache:dashboard:${userId}:${yearMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${yearMonth}`);
+
     alertService.checkAndCreateAlerts(userId).catch((err) => {
         console.error("Alert failed:", err.message);
     });
