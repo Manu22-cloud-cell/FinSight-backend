@@ -23,6 +23,10 @@ const errorHandler = require("./middlewares/errorHandler");
 // Request logging
 app.use(morganMiddleware);
 
+app.get("/", (req, res) => {
+    res.send("FinSight API is running 🚀");
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/analytics", analyticsRoutes);
