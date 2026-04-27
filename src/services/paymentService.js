@@ -131,7 +131,7 @@ exports.verifyPayment = async (data, userId) => {
   }
 };
 
-/* exports.handleWebhookSuccess = async (payment) => {
+exports.handleWebhookSuccess = async (payment) => {
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -183,4 +183,4 @@ exports.verifyPayment = async (data, userId) => {
     console.error("Webhook transaction failed:", error.message);
     throw error;
   }
-}; */
+}; 
