@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
-app.use("/api/payments/webhook", express.raw({ type: "*/*" }));
+//app.use("/api/payments/webhook", express.raw({ type: "*/*" }));
 app.use(express.json());
 
 const authRoutes = require("./routes/authRoutes");

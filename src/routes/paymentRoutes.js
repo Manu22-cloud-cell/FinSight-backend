@@ -7,6 +7,6 @@ const { strictLimiter } = require("../middlewares/rateLimiter");
 
 router.post("/create-order", protect, strictLimiter, paymentController.createOrder);
 router.post("/verify", protect, strictLimiter, paymentController.verifyPayment);
-router.post("/webhook", paymentController.handleWebhook);
+// router.post("/webhook", paymentController.handleWebhook);
 
 module.exports = router;

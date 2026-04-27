@@ -22,7 +22,7 @@ exports.verifyPayment = asyncHandler(async (req, res) => {
     });
 });
 
-exports.handleWebhook = async (req, res) => {
+/* exports.handleWebhook = async (req, res) => {
   try {
     const signature = req.headers["x-razorpay-signature"];
 
@@ -54,4 +54,4 @@ exports.handleWebhook = async (req, res) => {
     console.error("Webhook error:", error.message);
     res.status(500).send("Webhook processing failed");
   }
-};
+}; */
