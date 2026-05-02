@@ -26,10 +26,17 @@ exports.addTransaction = async (userId, data) => {
     }
 
     const txDate = new Date(data.date || Date.now());
-    const yearMonth = getYearMonthKey(txDate);
+    const txMonth = getYearMonthKey(txDate);
 
-    await deleteCache(`cache:dashboard:${userId}:${yearMonth}`);
-    await deleteCache(`cache:monthly-summary:${userId}:${yearMonth}`);
+    // Current month
+    const currentMonth = getYearMonthKey(new Date());
+
+    // Delete both
+    await deleteCache(`cache:dashboard:${userId}:${txMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${txMonth}`);
+
+    await deleteCache(`cache:dashboard:${userId}:${currentMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${currentMonth}`);
 
     alertService.checkAndCreateAlerts(userId).catch((err) => {
         console.error("Alert failed:", err.message);
@@ -62,11 +69,18 @@ exports.updateTransaction = async (userId, transactionId, data) => {
         throw new AppError("Transaction not found or update failed", 404);
     }
 
-    const txDate = new Date(updatedTransaction.date);
-    const yearMonth = getYearMonthKey(txDate);
+    const txDate = new Date(data.date || Date.now());
+    const txMonth = getYearMonthKey(txDate);
 
-    await deleteCache(`cache:dashboard:${userId}:${yearMonth}`);
-    await deleteCache(`cache:monthly-summary:${userId}:${yearMonth}`);
+    // Current month
+    const currentMonth = getYearMonthKey(new Date());
+
+    // Delete both
+    await deleteCache(`cache:dashboard:${userId}:${txMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${txMonth}`);
+
+    await deleteCache(`cache:dashboard:${userId}:${currentMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${currentMonth}`);
 
     alertService.checkAndCreateAlerts(userId).catch((err) => {
         console.error("Alert failed:", err.message);
@@ -97,11 +111,18 @@ exports.deleteTransaction = async (userId, transactionId) => {
         throw new AppError("Transaction delete failed", 500);
     }
 
-    const txDate = new Date(existingTransaction.date);
-    const yearMonth = getYearMonthKey(txDate);
+    const txDate = new Date(data.date || Date.now());
+    const txMonth = getYearMonthKey(txDate);
 
-    await deleteCache(`cache:dashboard:${userId}:${yearMonth}`);
-    await deleteCache(`cache:monthly-summary:${userId}:${yearMonth}`);
+    // Current month
+    const currentMonth = getYearMonthKey(new Date());
+
+    // Delete both
+    await deleteCache(`cache:dashboard:${userId}:${txMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${txMonth}`);
+
+    await deleteCache(`cache:dashboard:${userId}:${currentMonth}`);
+    await deleteCache(`cache:monthly-summary:${userId}:${currentMonth}`);
 
     alertService.checkAndCreateAlerts(userId).catch((err) => {
         console.error("Alert failed:", err.message);
