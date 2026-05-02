@@ -117,11 +117,11 @@ exports.getPrediction = async (user) => {
     const predictedUsagePercent =
         budget > 0 ? (predictedExpense / budget) * 100 : 0;
 
-    if (usagePercent > 120) {
+    if (predictedUsagePercent > 120) {
         message = "🚨 High overspending risk!";
-    } else if (usagePercent > 100) {
+    } else if (predictedUsagePercent > 100) {
         message = "⚠️ You may exceed your budget";
-    } else if (usagePercent < 70) {
+    } else if (daysPassed > 5 && predictedUsagePercent < 70) {
         message = "💰 Great savings habit!";
     }
 
