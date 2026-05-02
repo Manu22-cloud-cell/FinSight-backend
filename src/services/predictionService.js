@@ -111,16 +111,18 @@ exports.getPrediction = async (user) => {
     // ================= MESSAGE =================
     let message = "You're on track 👍";
 
-    if (budget > 0) {
-        const usagePercent = (predictedExpense / budget) * 100;
+    const usagePercent =
+        budget > 0 ? (totalExpense / budget) * 100 : 0;
 
-        if (usagePercent > 120) {
-            message = "🚨 High overspending risk!";
-        } else if (usagePercent > 100) {
-            message = "⚠️ You may exceed your budget";
-        } else if (usagePercent < 70) {
-            message = "💰 Great savings habit!";
-        }
+    const predictedUsagePercent =
+        budget > 0 ? (predictedExpense / budget) * 100 : 0;
+
+    if (usagePercent > 120) {
+        message = "🚨 High overspending risk!";
+    } else if (usagePercent > 100) {
+        message = "⚠️ You may exceed your budget";
+    } else if (usagePercent < 70) {
+        message = "💰 Great savings habit!";
     }
 
     // Override if already exceeded
@@ -135,6 +137,8 @@ exports.getPrediction = async (user) => {
         budget,
         remainingBudget: Math.round(remainingBudget),
         daysToExhaustBudget,
+        usagePercent: Math.round(usagePercent),
+        predictedUsagePercent: Math.round(predictedUsagePercent),
         message,
     };
 };
