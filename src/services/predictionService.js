@@ -9,6 +9,7 @@ exports.getPrediction = async (user) => {
     const userId = user._id;
     const today = new Date();
 
+    // ================= MONTH START =================
     const startOfMonth = new Date(
         today.getFullYear(),
         today.getMonth(),
@@ -21,7 +22,7 @@ exports.getPrediction = async (user) => {
     const transactions = await Transaction.find({
         userId,
         type: "expense",
-        date: { $gte: startOfMonth },
+        date: { $gte: startOfMonth, $lte: today },
     });
 
     const totalExpense = (transactions || []).reduce(
@@ -30,13 +31,13 @@ exports.getPrediction = async (user) => {
     );
 
     // ================= LAST 7 DAYS =================
-    const last7Days = new Date();
+    const last7Days = new Date(today);
     last7Days.setDate(today.getDate() - 7);
 
     const recentTransactions = await Transaction.find({
         userId,
         type: "expense",
-        date: { $gte: last7Days },
+        date: { $gte: last7Days, $lte: today },
     });
 
     const recentTotal = (recentTransactions || []).reduce(
@@ -45,15 +46,30 @@ exports.getPrediction = async (user) => {
     );
 
     // ================= BURN RATE =================
-    const safeDays = Math.max(daysPassed, 3);
-    const fallbackBurnRate = safeDays > 0 ? totalExpense / safeDays : 0;
 
-    const recentDays = Math.min(7, daysPassed);
+    const fallbackBurnRate =
+        daysPassed > 0 ? totalExpense / daysPassed : 0;
+
+    const actualRecentDays = Math.max(
+        1,
+        Math.ceil(
+            (today - last7Days) / (1000 * 60 * 60 * 24)
+        )
+    );
+
     const recentDailyAvg =
-        recentTotal > 0 ? recentTotal / recentDays : 0;
+        recentTotal > 0 ? recentTotal / actualRecentDays : 0;
 
-    const weightRecent = 0.6;
-    const weightOverall = 0.4;
+    let weightRecent = 0.6;
+    let weightOverall = 0.4;
+
+    if (daysPassed <= 3) {
+        weightRecent = 0.8;
+        weightOverall = 0.2;
+    } else if (daysPassed <= 7) {
+        weightRecent = 0.7;
+        weightOverall = 0.3;
+    }
 
     const dailyBurnRate =
         (recentDailyAvg * weightRecent) +
@@ -71,7 +87,7 @@ exports.getPrediction = async (user) => {
         totalDaysInMonth - daysPassed
     );
 
-    // Predict only future spending
+    // ================= PREDICTION =================
     const predictedExpense =
         totalExpense + (dailyBurnRate * remainingDays);
 
@@ -80,13 +96,14 @@ exports.getPrediction = async (user) => {
     // ================= REMAINING BUDGET =================
     const rawRemaining = budget - totalExpense;
 
-    // never go negative (UI-friendly)
     const remainingBudget = Math.max(0, rawRemaining);
 
     // ================= DAYS TO EXHAUST =================
     let daysToExhaustBudget = null;
 
-    if (dailyBurnRate > 0) {
+    if (rawRemaining <= 0) {
+        daysToExhaustBudget = 0;
+    } else if (dailyBurnRate > 0) {
         const rawDays = rawRemaining / dailyBurnRate;
         daysToExhaustBudget = Math.max(0, Math.round(rawDays));
     }
@@ -106,15 +123,15 @@ exports.getPrediction = async (user) => {
         }
     }
 
-    // Extra UX polish
+    // Override if already exceeded
     if (rawRemaining < 0) {
         message = "🚨 Budget exhausted! Reduce spending immediately";
     }
 
     return {
-        totalExpense,
-        dailyBurnRate: Math.round(dailyBurnRate || 0),
-        predictedExpense: Math.round(predictedExpense || 0),
+        totalExpense: Math.round(totalExpense),
+        dailyBurnRate: Math.round(dailyBurnRate),
+        predictedExpense: Math.round(predictedExpense),
         budget,
         remainingBudget: Math.round(remainingBudget),
         daysToExhaustBudget,
