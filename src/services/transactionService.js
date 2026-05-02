@@ -111,7 +111,7 @@ exports.deleteTransaction = async (userId, transactionId) => {
         throw new AppError("Transaction delete failed", 500);
     }
 
-    const txDate = new Date(data.date || Date.now());
+    const txDate = new Date(existingTransaction.date);
     const txMonth = getYearMonthKey(txDate);
 
     // Current month
