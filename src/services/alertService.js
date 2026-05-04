@@ -7,19 +7,25 @@ const AppError = require("../utils/AppError");
 
 // ================= CHECK & CREATE ALERTS =================
 exports.checkAndCreateAlerts = async (userId) => {
+
   if (!userId) {
     throw new AppError("User ID is required", 400);
   }
-
-  const alerts = await alertEngine.runChecks(userId);
-
-  if (!alerts || !alerts.length) return;
 
   const user = await userRepository.getUserById(userId);
 
   if (!user) {
     throw new AppError("User not found", 404);
   }
+
+  // BLOCK NON-PREMIUM USERS HERE
+  if (!user.isPremium) {
+    return;
+  }
+
+  const alerts = await alertEngine.runChecks(userId);
+
+  if (!alerts || !alerts.length) return;
 
   // Process alerts in parallel (performance improvement)
   await Promise.all(
@@ -35,7 +41,7 @@ exports.checkAndCreateAlerts = async (userId) => {
       }
 
       // Real-time notification
-      if (global.io) {
+      if (global.io && user.isPremium) {
         global.io.to(userId.toString()).emit("alert", {
           message: alert.message,
           type: alert.type,
