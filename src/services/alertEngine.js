@@ -101,7 +101,7 @@ exports.runChecks = async (userId) => {
 
     // Days to exhaust (only if budget still remaining)
     if (
-      prediction.remainingBudget > 0 && // 🔥 KEY FIX
+      prediction.remainingBudget > 0 && 
       prediction.daysToExhaustBudget !== null &&
       prediction.daysToExhaustBudget > 0 &&
       prediction.daysToExhaustBudget <= 5

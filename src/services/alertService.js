@@ -18,11 +18,6 @@ exports.checkAndCreateAlerts = async (userId) => {
     throw new AppError("User not found", 404);
   }
 
-  // BLOCK NON-PREMIUM USERS HERE
-  if (!user.isPremium) {
-    return;
-  }
-
   const alerts = await alertEngine.runChecks(userId);
 
   if (!alerts || !alerts.length) return;
@@ -41,7 +36,7 @@ exports.checkAndCreateAlerts = async (userId) => {
       }
 
       // Real-time notification
-      if (global.io && user.isPremium) {
+      if (global.io) {
         global.io.to(userId.toString()).emit("alert", {
           message: alert.message,
           type: alert.type,
